@@ -1,0 +1,24 @@
+{
+  "name": "get-overpass",
+  "version": "0.1.0",
+  "description": "Get OpenStreetMap objects via the Overpass API as GeoJSON Edit",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mfogel/get-overpass.git"
+  },
+  "keywords": [
+    "osm",
+    "overpass",
+    "geojson"
+  ],
+  "author": "Mike Fogel <mike@fogel.ca>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mfogel/get-overpass/issues"
+  },
+  "homepage": "https://github.com/mfogel/get-overpass#readme"
+}
