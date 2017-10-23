@@ -1,7 +1,5 @@
-# get-overpass
+# get-overpass [![npm version](https://badge.fury.io/js/get-overpass.svg)](https://badge.fury.io/js/get-overpass)
 Get OpenStreetMap objects via the Overpass API as GeoJSON
-
-## NOTE: This is a work in progress. Documentation below describes features in development. This message will be removed once MVP is done, and the project will be pushed to npm.
 
 ## Quickstart
 
