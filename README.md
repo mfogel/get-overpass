@@ -12,83 +12,36 @@ $ get-overpass relation/3082668 > buenos-aires.geojson
 
 ## CMD
 
-Object ids may be passed to `get-overpass` in two ways:
-
-* as one or more positional arguments
-* as a space-separated series of strings via stdin
-
-If any ids are passed as arguments, stdin will be ignored. The following are equivalent:
-
 ```sh
-$ get-overpass relation/3082668 > buenos-aires.geojson
-$ echo relation/3082668 | get-overpass > buenos-aires.geojson
+$ get-overpass [-a/--api-endpoint url] <OSM id>
 ```
 
-The generated GeoJSON will be either a Feature or a FeatureCollection, depending on how many ids were passed in.
-
-```sh
-$ get-overpass way/213576260 > a-path-in-playa-de-mayo.geojson                  # Feature
-$ get-overpass way/213576258 way/213576260 > footpaths-in-playa-de-mayo.geojson # FeatureCollection
-```
-
-Object identifiers can be formatted in a few ways:
-
-* relations: `r/3082668`, `rel/3082668`, `relation/3082668`
-* ways: `w/213576258`, `way/213576258`
-* nodes: `n/4497495008`, `node/4497495008`
-
-Equivalent:
-
-```sh
-$ get-overpass node/4497495008 > obelisco.geojson
-$ get-overpass n/4497495008 > obelisco.geojson
-```
-
-By default, the Overpass API endpoint `http://overpass-api.de/api/interpreter` will be used. Note that 'be friendly' [usage limits](http://wiki.openstreetmap.org/wiki/Overpass_API) apply. To use a different Overpass API endpoint, use the `-e`/`--api-endpoint` option.
-
-```sh
-$ get-overpass -e https://my-overpass.com/api/interpreter relation/60189 > russia-is-big.geojson
-```
+If not otherwise specified, the public Overpass API endpoint `https://overpass-api.de/api/interpreter` is used.
 
 ## API
 
-`get-overpass` exports a class with four methods and one property:
-
-### `getOverpass.get(<id::str>, ...)`
+`get-overpass` exports a single function which returns a promise.
 
 ```js
-const go = require('get-overpass')
-const buenosAiresAndObelisco = go.get('rel/3082668', 'node/4497495008')
+function getOverpass(osmId, apiEndpoint = "https://overpass-api.de/api/interpreter") => new Promise()
 ```
 
-### `getOverpass.getRelation(<relationID::number|str>, ...)`
+Example:
 
 ```js
-const go = require('get-overpass')
-const buenosAires = go.getRelation(3082668)
+const getOverpass = require('get-overpass')
+getOverpass('relation/3082668')
+  .then(data => console.log("Buenos Aires:", data)
+  .catch(error => console.log("DOH!", error.message)
 ```
 
-### `getOverpass.getWay(<wayID::number|str>, ...)`
+## OSM ids
 
-```js
-const go = require('get-overpass')
-const buenosAires = go.getWay(213576258, '213576260')
-```
+OpenStreetMap identifiers are formatted as `<prefix of an OSM type>/<OSM id of that type>`. Valid OSM types are `relation`, `way`, and `node`. For each type, the following are all valid and equivalent:
 
-### `getOverpass.getNode(<nodeID::number|str>, ...)`
-
-```js
-const go = require('get-overpass')
-const obelisco = go.get(4497495008)
-```
-
-### `getOverpass.apiEndpoint`
-
-```js
-const go = require('get-overpass')
-console.log(go.apiEndpoint) // https://overpass-api.de/api/interpreter
-go.apiEndpoint = 'https://antoher-overpass-api-instance.com/api/interpreter'
-```
+* relation: `r/3082668`, `rel/3082668`, `relation/3082668`
+* way: `w/213576258`, `way/213576258`
+* node: `n/4497495008`, `node/4497495008`
 
 ## FAQ
 
@@ -100,9 +53,9 @@ One way to do this is to use the 'query features' tool (the question mark on the
 
 Maybe. OpenStreetMap data is licensed under the [ODbL](http://www.openstreetmap.org/copyright). Attribution is required, and derivative works must also be licensed under the ODbL.
 
-## Contributing
+### Is there a usage limit on the default Overpass API endpoint?
 
-Found a bug? Got a feature request? Please file a github issue or, better yet, make a pull request.
+Yes, there is a general 'be friendly' [usage limits](http://wiki.openstreetmap.org/wiki/Overpass_API).
 
 ## Credits
 
