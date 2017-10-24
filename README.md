@@ -35,11 +35,18 @@ getOverpass('relation/3082668')
 
 ## OSM ids
 
-OpenStreetMap identifiers are formatted as `<prefix of an OSM type>/<OSM id of that type>`. Valid OSM types are `relation`, `way`, and `node`. For each type, the following are all valid and equivalent:
+There are two valid formats for OSM identifiers:
 
-* relation: `r/3082668`, `rel/3082668`, `relation/3082668`
-* way: `w/213576258`, `way/213576258`
-* node: `n/4497495008`, `node/4497495008`
+* `<OSM type>/<OSM id of that type>` This format is used by [osmtogeojson](https://github.com/tyrasd/osmtogeojson).
+* `<first letter of OSM type><OSM id of that type>`
+
+Examples of valid and equivalent OSM ids are:
+
+* `r3082668`, `relation/3082668`
+* `w213576258`, `way/213576258`
+* `n4497495008`, `node/4497495008`
+
+Only `relation`, `way`, and `node` are supported, other non-primary OSM types (ie `area`) are not supported.
 
 ## FAQ
 

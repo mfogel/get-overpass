@@ -29,7 +29,7 @@ async function main () {
     const data = await getOverpass(argv['OSMid'], argv.apiEndpoint)
     process.stdout.write(JSON.stringify(data))
   } catch (e) {
-    console.log(e)
+    console.error(e)
     process.exit(1)
   }
 }

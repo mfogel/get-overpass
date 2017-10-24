@@ -3,11 +3,12 @@ const queryOverpass = require('query-overpass')
 const pjson = require('./package.json')
 
 function getQuery (compoundId) {
-  const [osmType, id] = compoundId.split('/')
-  if ('relation'.startsWith(osmType)) return `(relation(${id});way(r);node(w););out;`
-  if ('way'.startsWith(osmType)) return `((way(${id});node(w););out;`
-  if ('node'.startsWith(osmType)) return `node(${id});out;`
-  throw new Error(`Unrecognized osm type ${osmType}`)
+  const osmId = compoundId.match(/(\d+)$/)[0]
+  const osmType = compoundId.slice(0, -osmId.length)
+  if (['r', 'relation/'].includes(osmType)) return `(relation(${osmId});way(r);node(w););out;`
+  if (['w', 'way/'].includes(osmType)) return `((way(${osmId});node(w););out;`
+  if (['n', 'node/'].includes(osmType)) return `node(${osmId});out;`
+  throw new Error(`Unable to parse ID ${compoundId}`)
 }
 
 module.exports = function (compoundId, apiEndpoint = pjson['default-api-endpoint']) {
