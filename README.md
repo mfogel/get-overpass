@@ -11,17 +11,16 @@ $ get-overpass relation/3082668 > buenos-aires.geojson
 ## CMD
 
 ```sh
-$ get-overpass [-a/--api-endpoint url] <OSM id>
+$ get-overpass [-a/--api-endpoint url] [-m/--mapbox-ids] <OSM ID>
 ```
 
-If not otherwise specified, the public Overpass API endpoint `https://overpass-api.de/api/interpreter` is used.
 
 ## API
 
 `get-overpass` exports a single function which returns a promise.
 
 ```js
-function getOverpass(osmId, apiEndpoint = "https://overpass-api.de/api/interpreter") => new Promise()
+function getOverpass(osmId, mapboxIds = false, apiEndpoint = "https://overpass-api.de/api/interpreter") => new Promise()
 ```
 
 Example:
@@ -33,34 +32,43 @@ getOverpass('relation/3082668')
   .catch(error => console.log("DOH!", error.message)
 ```
 
-## OSM ids
+## OSM IDs
 
 There are two valid formats for OSM identifiers:
 
-* `<OSM type>/<OSM id of that type>` This format is used by [osmtogeojson](https://github.com/tyrasd/osmtogeojson).
-* `<first letter of OSM type><OSM id of that type>`
+* The [OSMtoGeoJSON string format](https://github.com/tyrasd/osmtogeojson): `<OSM type>/<OSM ID of that type>`
+* The [Mapbox globally unique numeric format](https://www.mapbox.com/vector-tiles/mapbox-streets-v7/):
+** nodes: `{OSM node ID} * 10`
+** ways: `{OSM way ID}` * 10 + 1`
+** relations: `{OSM relation ID}` * 10 + 4`
 
-Examples of valid and equivalent OSM ids are:
+Examples of valid and equivalent OSM IDs are (osmtogeojson format, mapbox format):
 
-* `r3082668`, `relation/3082668`
-* `w213576258`, `way/213576258`
-* `n4497495008`, `node/4497495008`
+* `relation/3082668`, `30826684`
+* `way/213576258`, `2135762581`
+* `node/4497495008`, 44974950080`
 
-Only `relation`, `way`, and `node` are supported, other non-primary OSM types (ie `area`) are not supported.
+Only the primary OSM types `relation`, `way`, and `node` are supported, other types (ie `area`) are not supported.
+
+## Options
+
+### `-a`/`--api-endpoint`/`apiEndpoint`
+
+Use the given url as an Overpass API endpoint. If not set, the default public Overpass API instance `https://overpass-api.de/api/interpreter` will be used. Note that general 'be friendly' [data usage limits](http://wiki.openstreetmap.org/wiki/Overpass_API) apply to the default endpoint.
+
+### `-m`/`--mapbox-ids`/`mapboxIDs`
+
+Format IDs in the output in Mapbox format. If not set, ID's will be in the default OSMtoGeoJSON format.
 
 ## FAQ
 
-### How can I find the OSM id of the feature I want to download?
+### How can I find the OSM ID of the feature I want to download?
 
 One way to do this is to use the 'query features' tool (the question mark on the right of the interface) at https://www.openstreetmap.org/.
 
 ### Do I need to worry about data licenses?
 
 Maybe. OpenStreetMap data is licensed under the [ODbL](http://www.openstreetmap.org/copyright). Attribution is required, and derivative works must also be licensed under the ODbL.
-
-### Is there a usage limit on the default Overpass API endpoint?
-
-Yes, there is a general 'be friendly' [usage limits](http://wiki.openstreetmap.org/wiki/Overpass_API).
 
 ## Credits
 

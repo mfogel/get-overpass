@@ -15,7 +15,10 @@
     "overpass",
     "geojson"
   ],
-  "default-api-endpoint": "https://overpass-api.de/api/interpreter",
+  "option-defaults": {
+    "api-endpoint": "https://overpass-api.de/api/interpreter",
+    "mapbox-ids": false
+  },
   "author": "Mike Fogel <mike@fogel.ca>",
   "license": "ISC",
   "bugs": {
