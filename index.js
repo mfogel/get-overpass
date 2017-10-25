@@ -19,9 +19,8 @@ function mapbox2osmtogeojson (mapboxId) {
   throw new Error(`Unable to convert Mapbox ID '${mapboxId}' to OSMtoGeoJSON ID`)
 }
 
-function getQuery (osmId) {
-  if (!String(osmId).includes('/')) osmId = mapbox2osmtogeojson(osmId)
-  const [osmType, osmTypeId] = osmId.split('/')
+function getQuery (osmtogeojsonId) {
+  const [osmType, osmTypeId] = osmtogeojsonId.split('/')
   if (osmType === 'relation') return `(relation(${osmTypeId});way(r);node(w););out;`
   if (osmType === 'way') return `((way(${osmTypeId});node(w););out;`
   if (osmType === 'node') return `node(${osmTypeId});out;`
@@ -29,13 +28,15 @@ function getQuery (osmId) {
 }
 
 module.exports = function (osmId, mapboxIds = defaults['mapbox-ids'], apiEndpoint = defaults['api-endpoint']) {
+  if (!String(osmId).includes('/')) osmId = mapbox2osmtogeojson(osmId)
   const query = getQuery(osmId)
   const translatedOpts = {overpassUrl: apiEndpoint, flatProperties: true}
   return new Promise(function (resolve, reject) {
     function callback (error, data) {
-      if (error !== undefined) reject(new Error(error.message))
-      if (data.features.length === 0) reject(new Error(`${osmId} not found`))
-      const feature = data.features[0]
+      if (error !== undefined) return reject(new Error(error.message))
+      if (data.features.length === 0) return reject(new Error(`${osmId} not found`))
+      const feature = data.features.find(f => f.id === osmId)
+      if (feature === undefined) return reject(new Error(`Found ${osmId} but did not recieve in payload. Bad data in OSM?`))
       if (mapboxIds) {
         feature.id = osmtogeojson2mapbox(feature.id)
         feature.properties.id = osmtogeojson2mapbox(feature.properties.id)
