@@ -1,4 +1,4 @@
-# 0.2.0 (IN DEVELOPMENT)
+# 0.2.0
 
 * support Mapbox globally unique numeric ID's
 

@@ -1,6 +1,6 @@
 {
   "name": "get-overpass",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Get OpenStreetMap objects via the Overpass API as GeoJSON",
   "repository": "github:mfogel/get-overpass",
   "main": "index.js",
