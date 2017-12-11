@@ -33,16 +33,18 @@ function getQuery (osmtogeojsonId) {
   throw new Error(`Unrecognized OSM type ${osmType}`)
 }
 
-module.exports = function (
+function getOverpass (
   osmId,
   mapboxIds = defaults['mapbox-ids'],
   apiEndpoint = defaults['api-endpoint']
 ) {
   if (!String(osmId).includes('/')) osmId = mapbox2osmtogeojson(osmId)
-  const query = getQuery(osmId)
-  const translatedOpts = { overpassUrl: apiEndpoint, flatProperties: true }
+
+  const opQuery = getQuery(osmId)
+  const opOpts = { overpassUrl: apiEndpoint, flatProperties: true }
+
   return new Promise(function (resolve, reject) {
-    function callback (error, data) {
+    function opCallback (error, data) {
       if (error !== undefined) return reject(new Error(error.message))
       if (data.features.length === 0) {
         return reject(new Error(`${osmId} not found`))
@@ -61,6 +63,9 @@ module.exports = function (
       }
       resolve(feature)
     }
-    queryOverpass(query, callback, translatedOpts)
+
+    queryOverpass(opQuery, opCallback, opOpts)
   })
 }
+
+module.exports = getOverpass

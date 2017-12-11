@@ -10,7 +10,7 @@ const argv = require('yargs')
       describe:
         'An OSM ID in either OSMtoGeoJSON or Mapbox form.\n' +
         'OSMtoGeoJSON: {OSM type}/{ID of OSM object of that type}\n' +
-        'Mapbox: {OSM node ID}*10 / {OSM way ID}*10+1 / {OSM relation ID}*10+4',
+        'Mapbox: {OSM node ID}*10 | {OSM way ID}*10+1 | {OSM relation ID}*10+4',
       type: 'string'
     })
   })
