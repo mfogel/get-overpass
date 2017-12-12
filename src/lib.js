@@ -25,11 +25,9 @@ function mapbox2osmtogeojson (mapboxId) {
 
 function getQuery (osmtogeojsonId) {
   const [osmType, osmTypeId] = osmtogeojsonId.split('/')
-  if (osmType === 'relation') {
-    return `(relation(${osmTypeId});way(r);node(w););out;`
-  }
-  if (osmType === 'way') return `(way(${osmTypeId});node(w););out;`
-  if (osmType === 'node') return `node(${osmTypeId});out;`
+  if (osmType === 'relation') return `relation(${osmTypeId});out geom;`
+  if (osmType === 'way') return `way(${osmTypeId});out geom;`
+  if (osmType === 'node') return `node(${osmTypeId});out geom;`
   throw new Error(`Unrecognized OSM type ${osmType}`)
 }
 
@@ -53,7 +51,8 @@ function getOverpass (
       if (feature === undefined) {
         return reject(
           new Error(
-            `Found ${osmId} but did not recieve in payload. Bad data in OSM?`
+            `Found ${osmId} but did not recieve geometry from ostogeojson.` +
+              ` Unable to convert geom to geojson?`
           )
         )
       }

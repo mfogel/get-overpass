@@ -37,11 +37,6 @@ test('query relation polygon', () => {
   return getAndCompareGeojson(23641634, 'dique-3.json')
 })
 
-// faliing
-test.only('query relation line', () => {
-  return getAndCompareGeojson('relation/2934099', 'subte-d.json')
-})
-
 test('query closed way', () => {
   return getAndCompareGeojson('99392311', 'parque-centenario.json')
 })

@@ -66,6 +66,10 @@ Format IDs in the output in Mapbox format. If not set, ID's will be in the defau
 
 One way to do this is to use the 'query features' tool (the question mark on the right of the interface) at https://www.openstreetmap.org/.
 
+### I get an error "Unable to covert geom to geojson?". What's up?
+
+Under the hood, this tool uses [osmtogeojson](https://github.com/tyrasd/osmtogeojson) to build geojson from result sets. There are some OSM structures, particularly some `relations`, that it appears that osmtogeojson is unable to convert to geojson.
+
 ### Do I need to worry about data licenses?
 
 Maybe. OpenStreetMap data is licensed under the [ODbL](http://www.openstreetmap.org/copyright). Attribution is required, and derivative works must also be licensed under the ODbL.
