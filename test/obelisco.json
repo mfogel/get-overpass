@@ -1,0 +1,17 @@
+{
+  "type": "Feature",
+  "id": "node/4497495008",
+  "properties": {
+    "historic": "monument",
+    "name": "Obelisco",
+    "source": "Reconocimiento Cartográfico 2016 por KG",
+    "id": "node/4497495008"
+  },
+  "geometry": {
+    "type": "Point",
+    "coordinates": [
+      -58.3816223,
+      -34.6037499
+    ]
+  }
+}

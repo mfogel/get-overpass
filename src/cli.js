@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const getOverpass = require('./')
-const pjson = require('./package.json')
+const pjson = require('../package.json')
 const process = require('process')
 
 const argv = require('yargs')

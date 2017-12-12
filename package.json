@@ -3,12 +3,16 @@
   "version": "0.2.0",
   "description": "Get OpenStreetMap objects via the Overpass API as GeoJSON",
   "repository": "github:mfogel/get-overpass",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "test-debug": "node --inspect-brk node_modules/.bin/jest --runInBand"
+  },
+  "jest": {
+    "testEnvironment": "node"
   },
   "bin": {
-    "get-overpass": "cli.js"
+    "get-overpass": "src/cli.js"
   },
   "keywords": [
     "osm",
@@ -27,7 +31,10 @@
   "homepage": "https://github.com/mfogel/get-overpass#readme",
   "dependencies": {
     "bluebird": "^3.5.1",
-    "query-overpass": "^1.5.1",
+    "query-overpass": "^1.5.3",
     "yargs": "^10.0.3"
+  },
+  "devDependencies": {
+    "jest": "^21.2.1"
   }
 }

@@ -1,6 +1,6 @@
 const Promise = require('bluebird')
 const queryOverpass = require('query-overpass')
-const defaults = require('./package.json')['option-defaults']
+const defaults = require('../package.json')['option-defaults']
 
 function osmtogeojson2mapbox (osmtogeojsonId) {
   const [osmType, osmTypeId] = osmtogeojsonId.split('/')
@@ -28,7 +28,7 @@ function getQuery (osmtogeojsonId) {
   if (osmType === 'relation') {
     return `(relation(${osmTypeId});way(r);node(w););out;`
   }
-  if (osmType === 'way') return `((way(${osmTypeId});node(w););out;`
+  if (osmType === 'way') return `(way(${osmTypeId});node(w););out;`
   if (osmType === 'node') return `node(${osmTypeId});out;`
   throw new Error(`Unrecognized OSM type ${osmType}`)
 }
@@ -68,4 +68,9 @@ function getOverpass (
   })
 }
 
-module.exports = getOverpass
+module.exports = {
+  getOverpass: getOverpass,
+  getQuery: getQuery,
+  mapbox2osmtogeojson: mapbox2osmtogeojson,
+  osmtogeojson2mapbox: osmtogeojson2mapbox
+}
